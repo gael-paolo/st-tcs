@@ -1,0 +1,4 @@
+# Permitir archivos esenciales
+!.gitignore
+!tcs_app.py
+!requirements.txt
