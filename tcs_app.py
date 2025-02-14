@@ -8,8 +8,8 @@ st.title("Análisis de Pagos de Garantía")
 st.write("Carga los datos desde las fuentes y consulta valores FOB específicos.")
 
 # URLs de los archivos CSV
-URL_BOL01 = 'https://storage.googleapis.com/bk_tcs/invoices_bol01.csv'
-URL_BOL02 = 'https://storage.googleapis.com/bk_tcs/invoices_bol02.csv'
+URL_BOL01 = st.secrets["URL_BOL01"]
+URL_BOL02 = st.secrets["URL_BOL02"]
 
 @st.cache_data
 def load_data():
