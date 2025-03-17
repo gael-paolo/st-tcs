@@ -8,8 +8,8 @@ st.title("Análisis de Pagos de Garantía")
 st.write("Carga los datos desde las fuentes y consulta valores FOB específicos.")
 
 # URLs de los archivos CSV
-URL_BOL01 = st.secrets["URL_BOL01"]
-URL_BOL02 = st.secrets["URL_BOL02"]
+URL_BOL01 = 'https://storage.googleapis.com/bk_tcs/invoices_bol01.csv'
+URL_BOL02 = 'https://storage.googleapis.com/bk_tcs/invoices_bol02.csv'
 
 @st.cache_data
 def load_data():
@@ -229,6 +229,7 @@ if uploaded_file is not None:
     NIBOL_Labour = Revision.groupby(['Claim No.']).agg({'Labor Remittance Amount': 'sum', 'Sublet Remittance Amount': 'sum'})
     NIBOL_Labour = NIBOL_Labour.reset_index()
     NIBOL_Labour['Labor Remittance Amount'] = NIBOL_Labour['Labor Remittance Amount'].fillna(0)
+    NIBOL_Labour['Labor Remittance Amount'] = NIBOL_Labour['Labor Remittance Amount'] * 0.5
     NIBOL_Labour['Sublet Remittance Amount'] = NIBOL_Labour['Sublet Remittance Amount'].fillna(0)
 
     # Uniendo BD
@@ -252,4 +253,4 @@ if uploaded_file is not None:
     with pd.ExcelWriter(output_parts, engine='xlsxwriter') as writer:
         NIBOL_Report.to_excel(writer, sheet_name='Reporte Pago', index=False)
     output_parts.seek(0)
-    st.download_button(label="Descargar Reporte", data=output_parts, file_name="Diferencias_Partes.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+    st.download_button(label="Descargar Reporte", data=output_parts, file_name="NIBOL_Facturacion.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
